@@ -1,6 +1,6 @@
 # SOLIN — Monitoramento de Saúde de Pets (Clyvo Vet)
 
-> Java Advanced — FIAP — Challenge 2026, 2º Semestre — Sprint 3
+> Java Advanced — FIAP — Challenge 2026, 2º Semestre — Entrega final (4º Sprint)
 
 ##  Equipe — Turma 2TDSR
 
@@ -12,13 +12,17 @@
 | Samara Vilela | RM566133 |
 | Otávio Ferreira | RM565960 |
 
-##  Vídeo de apresentação
+## Entrega final — acesso e apresentação
 
-`https://www.youtube.com/watch?v=i8mMz05rV80`
+**Acesso online:** esta cópia ainda não tem uma URL de implantação publicada. O endereço local depois de iniciar a aplicação é `http://localhost:8080/solin/login`. A seção [Implantação](#implantação) documenta como gerar a imagem e configurar um serviço e um PostgreSQL externos; a publicação precisa ser feita em uma conta de hospedagem da equipe.
+
+**Vídeo informado no material anterior:** [YouTube](https://www.youtube.com/watch?v=i8mMz05rV80). Antes da entrega, confirmem que este é o vídeo do 4º Sprint, que dura no máximo 15 minutos e que todos os integrantes aparecem e participam. Não foi possível confirmar o conteúdo do vídeo a partir desta pasta.
+
+Para registrar a URL online e substituir o link do vídeo após a gravação, atualizem esta seção e mantenham os dois links acessíveis para avaliação.
 
 ---
 
-O SOLIN nasceu como API REST nas Sprints 1 e 2 e virou aplicação web completa nesta Sprint 3, em **Spring Boot**. A ideia central não mudou: acompanhar a rotina diária de saúde de um pet (se urinou, se comeu, se bebeu água), seja o tutor registrando na mão ou um sensor IoT mandando os dados, e disparar um **alerta automático** quando algo sai do padrão esperado para aquela espécie. O que essa sprint trouxe de novo foi a tela em si — antes só existia a API — além de versionamento de banco com **Flyway** e login/permissões com **Spring Security**. O projeto é ambientado numa clínica fictícia, a **Clyvo Vet**.
+O SOLIN evoluiu de uma API REST para uma aplicação web completa em **Spring Boot**. A ideia central é acompanhar a rotina diária de saúde de um pet (se urinou, se comeu, se bebeu água), seja o tutor registrando manualmente ou um sensor IoT enviando os dados, e criar um **alerta automático** quando o intervalo ultrapassa o limite configurado para aquela espécie. Esta entrega consolida os fluxos web, o controle de acesso com **Spring Security**, o versionamento do banco com **Flyway**, as evidências técnicas e a preparação para execução em container. O projeto é ambientado numa clínica fictícia, a **Clyvo Vet**.
 
 ---
 
@@ -72,6 +76,20 @@ A aplicação segue arquitetura em camadas: **Controller (Web/REST) → Service 
 - Maven
 - Docker / Docker Compose (para subir o banco localmente)
 
+## UI/UX e decisões de design
+
+A metáfora visual é a de um monitor clínico: fundo azul-petróleo escuro, cartões com hierarquia consistente e um traço de pulso discreto. O laranja identifica a ação principal, o âmbar destaca atenção e o coral destaca criticidade; essa linguagem conecta os estados do produto à narrativa da saúde acompanhada, sem depender de um template genérico. O foco visível em teclado e a navegação lateral que vira menu retrátil em telas estreitas estão implementados em `solin.css` e no fragmento de navegação. A interface prioriza tarefas frequentes — conferir pets, registrar um evento e acompanhar alertas — e apresenta áreas distintas para tutor e veterinário.
+
+## Evidências e integração do trabalho
+
+| Evidência | Local | O que demonstra |
+|---|---|---|
+| Capturas da aplicação | [`docs/`](docs/) | Fluxos de conta, pet, eventos, assistente e painel da clínica |
+| Diagramas de domínio e dados | [`documentos/diagramas/`](documentos/diagramas/) | Relações entre entidades e estrutura persistida no PostgreSQL |
+| Scripts SQL versionados | [`src/main/resources/db/migration/`](src/main/resources/db/migration/) | Criação, evolução e dados de demonstração do banco via Flyway |
+| Contrato de API | [`documentos/postman/SOLIN_API.postman_collection.json`](documentos/postman/SOLIN_API.postman_collection.json) e Swagger | Chamadas REST para integração e validação técnica |
+| Roteiro e pendências da entrega | [`docs/entrega-sprint4.md`](docs/entrega-sprint4.md) | Preparação do ensaio, evidências existentes e ações externas pendentes |
+
 ---
 
 ##  Perfis de acesso (Spring Security)
@@ -88,9 +106,8 @@ As rotas são protegidas tanto por perfil (`hasRole`) na configuração de rotas
 ##  Como rodar
 
 ### Pré-requisitos
-- JDK 17+
-- Maven 3.8+ (ou `./mvnw`, se presente)
-- Docker e Docker Compose (para o PostgreSQL local)
+- Docker e Docker Compose (para subir o projeto completo em containers); ou
+- JDK 17+, Maven 3.8+ e Docker Compose (para executar a aplicação fora do container e usar o PostgreSQL local)
 
 ### Passo a passo
 
@@ -101,6 +118,14 @@ docker compose up -d
 ```
 
 Isso cria um container `solin-db` com PostgreSQL 16, banco `solindb`, usuário `solin` e senha `solin123` (porta `5432`).
+
+Se preferir subir a aplicação e o banco em containers (não requer Maven instalado), use:
+
+```bash
+docker compose --profile app up -d --build
+```
+
+Esse perfil compila a aplicação no Docker, espera o PostgreSQL ficar saudável e publica o SOLIN em `http://localhost:8080/solin/login`. Para desligar os containers, execute `docker compose --profile app down`; para preservar os dados locais, não remova o volume `solin-db-data`.
 
 **2. Rode a aplicação:**
 
@@ -143,7 +168,11 @@ Já do lado do tutor, não existe "a" conta certa para entrar — **qualquer pes
 |---|---|---|
 | Tutor (demonstração) | `tutor.demo@solin.com` | `demo123` |
 
-> Essas contas de demonstração (tutor e veterinário genérico) vêm da migration `V4__contas_demonstracao_genericas.sql`; a conta nomeada do veterinário (Dr. Marcel Wagner) e os tutores/pets de exemplo vêm da `V3__carga_inicial_dados.sql`. Nenhuma delas é obrigatória — são só atalhos para não precisar cadastrar nada na mão antes de dar uma olhada no sistema.
+Essa conta demonstração tem o pet **Luna (Cachorro)**, associado pela migration `V8__pet_demo_tutor.sql`, para que o formulário de registro de evento já tenha uma opção. Os pets **Rex** e **Mimi** pertencem ao tutor `maria.silva@email.com` (senha `tutor123`); **Thor** pertence a `joao.pereira@email.com` (senha `tutor123`). Por segurança, cada tutor só vê os pets associados à própria conta.
+
+**Se o seletor de pet estiver vazio em uma conta recém-criada**, primeiro use **Cadastrar pet** e cadastre um pet nessa mesma conta; só depois ele poderá ser escolhido em **Registrar evento**. O formulário não lista pets pertencentes a outras contas. Para ensaiar sem cadastrar um pet, entre com uma das contas de demonstração que já possui pet (Tutor demonstração, Maria ou João).
+
+> As contas genéricas vêm da migration `V4__contas_demonstracao_genericas.sql`; o veterinário nomeado e os tutores/pets iniciais vêm da `V3__carga_inicial_dados.sql`. Se dados cadastrados anteriormente não aparecerem, confirme que a aplicação está conectada ao mesmo PostgreSQL/volume de antes: este Compose usa o volume `solin-db-data` (prefixado pelo nome do projeto Compose) e não lê automaticamente dados de outro banco local ou remoto. Não remova volumes para tentar recuperar dados.
 
 ### Variáveis de ambiente (opcional)
 
@@ -155,6 +184,58 @@ export DB_USER=solin
 export DB_PASSWORD=solin123
 mvn spring-boot:run
 ```
+
+No PowerShell:
+
+```powershell
+$env:DB_URL = "jdbc:postgresql://localhost:5432/solindb"
+$env:DB_USER = "solin"
+$env:DB_PASSWORD = "solin123"
+mvn spring-boot:run
+```
+
+### Implantação no Render com GitHub
+
+O repositório da entrega é [`Rcsilva05/clyvo-vet-sprint-4`](https://github.com/Rcsilva05/clyvo-vet-sprint-4). A raiz de Git e do `Dockerfile` é a pasta `clyvo-vet` (não a pasta pai `orbitalgro-main`). O Render deve construir o serviço pelo Dockerfile; não use `docker-compose.yml` no Render. O Compose serve somente para desenvolvimento local.
+
+**1. Publique esta entrega no repositório novo:** o repositório foi criado vazio para esta entrega. Confira `git status` e `git diff`, adicione somente os arquivos listados, revise `git diff --cached`, faça commit e envie a branch `main` para o repositório novo. O comando configura um remoto separado chamado `sprint4` e não altera nem envia nada para o `origin` antigo:
+
+```powershell
+git status
+git diff
+git remote add sprint4 https://github.com/Rcsilva05/clyvo-vet-sprint-4.git
+git add .gitignore .dockerignore Dockerfile README.md docker-compose.yml documentos/diagramas/DER.md documentos/diagramas/diagrama-de-classes.md docs/entrega-sprint4.md src/main/resources/application.properties src/main/resources/db/migration/V8__pet_demo_tutor.sql
+git diff --cached
+git commit -m "Prepare Clyvo Vet for final deployment"
+git push -u sprint4 main
+```
+
+Se o repositório novo deixar de estar vazio antes do push, pare e confira suas branches e histórico; não use `--force`. Se `sprint4` já existir como remoto, confira primeiro `git remote -v` e não o substitua às cegas. Não envie para `origin`, que continua apontando para `Rcsilva05/clyvo-vet`.
+
+**2. Crie um PostgreSQL no Render:** no Dashboard, escolha **New → PostgreSQL**, defina nome e região e guarde os detalhes de conexão. Escolha a mesma região do Web Service. Use o **Internal Database URL/hostname** para conectar serviços da mesma conta e região. O banco remoto é separado do PostgreSQL local do Docker: os dados locais não são copiados para o Render. No primeiro início, Flyway cria o schema e as migrations carregam dados de demonstração.
+
+**3. Crie o Web Service a partir da branch:** escolha **New → Web Service**, conecte o repositório GitHub e a branch enviada acima. Defina **Language = Docker**, **Dockerfile Path = `./Dockerfile`** e mantenha **Docker Command** vazio (usa o `ENTRYPOINT` da imagem). Não configure um disco persistente para arquivos da aplicação: os dados ficam no PostgreSQL. O serviço e o PostgreSQL devem estar na mesma região.
+
+**4. Configure Environment Variables no Web Service:** use os dados internos exibidos na tela **Connect** do PostgreSQL. O formato de `DB_URL` deve ser JDBC, por exemplo `jdbc:postgresql://HOST_INTERNO:5432/NOME_DO_BANCO`; preencha `DB_USER` e `DB_PASSWORD` com os valores daquele banco. `PORT` é injetada pelo Render e a aplicação já a respeita; não fixe outra porta. Cadastre credenciais no painel do Render, nunca no README, YAML, Git ou Dockerfile. O serviço executa as migrations Flyway ao iniciar.
+
+**5. Implante e valide:** inicie o deploy pelo Dashboard, acompanhe os logs até `Started SolinApiApplication`, abra `https://<nome-do-servico>.onrender.com/solin/login` e valide os acessos de tutor e veterinário, registro de evento e painel de alertas. O serviço terá uma URL pública e os dados de demonstração do seed. Atualize então o campo **Acesso online** no topo deste README. Como as credenciais de demonstração são conhecidas e o app público permite operações, use-o somente para avaliação, sem dados pessoais/reais; não trate estes logins como contas privadas.
+
+**Sem recursos publicados ainda:** esta configuração não cria serviço, banco, conta, domínio ou deploy. O provisionamento requer que alguém da equipe conecte o GitHub e confirme a criação no Render. Consulte os guias oficiais de [deploy Docker](https://render.com/docs/docker) e [criação/conexão do PostgreSQL](https://render.com/docs/postgresql-creating-connecting).
+
+Para gerar e executar a imagem localmente (com o PostgreSQL já disponível na porta `5432`):
+
+Para gerar e executar a imagem localmente (com o PostgreSQL já disponível na porta `5432`):
+
+```powershell
+docker build -t solin:entrega .
+docker run --rm -p 8080:8080 `
+  -e DB_URL="jdbc:postgresql://host.docker.internal:5432/solindb" `
+  -e DB_USER="solin" `
+  -e DB_PASSWORD="solin123" `
+  solin:entrega
+```
+
+No comando `docker run`, o endereço do banco deve ser substituído pelo endereço acessível a partir do container ou da hospedagem. Nunca use credenciais de demonstração como segredos de produção.
 
 ---
 
@@ -169,8 +250,9 @@ mvn spring-boot:run
 | `V5__mais_especies.sql` | Renomeia "Cao" para "Cachorro" e adiciona 6 novas espécies (Hamster, Papagaio, Peixe, Tartaruga, Porquinho-da-índia, Calopsita), cada uma com seu próprio limite de horas sem urinar |
 | `V6__limite_horas_sem_agua.sql` | Novo campo `QT_HORAS_MAX_AGUA` em `TB_ESPECIE`, usado pela segunda regra de alerta (hidratação) |
 | `V7__soft_delete_pet.sql` | Novo campo `ST_ATIVO` em `TB_PET` (soft delete: desativar um pet preserva o histórico em vez de apagar) |
+| `V8__pet_demo_tutor.sql` | Cadastra Luna para o tutor genérico de demonstração, permitindo testar registro de eventos com `tutor.demo@solin.com` |
 
-O Hibernate está configurado com `ddl-auto=validate` — ou seja, **é o Flyway quem cria e evolui o schema**; o Hibernate só confere se as entidades batem com as tabelas já criadas. Qualquer alteração futura de schema deve entrar como uma nova migration (`V4__...sql`), nunca editando as anteriores.
+O Hibernate está configurado com `ddl-auto=validate` — ou seja, **é o Flyway quem cria e evolui o schema**; o Hibernate só confere se as entidades batem com as tabelas já criadas. Qualquer alteração futura de schema deve entrar como uma nova migration com o próximo número disponível (`V9__...sql` no estado atual), nunca editando as anteriores.
 
 ---
 
@@ -239,7 +321,7 @@ Prints reais de um teste completo do sistema rodando local, cobrindo os dois per
 
 **1. Banco de dados e migrations**
 
-Console do IntelliJ com a aplicação subindo e as 7 migrations do Flyway aplicadas com sucesso:
+Console do IntelliJ com a aplicação subindo e as 7 migrations do Flyway aplicadas com sucesso (evidência capturada antes da V8):
 
 ![Console do IntelliJ com as 7 migrations do Flyway aplicadas](docs/intellij-console-flyway-7-migrations.png)
 
@@ -328,15 +410,17 @@ As duas últimas foram adicionadas depois das duas primeiras, sem alterar uma li
 
 ---
 
-##  Requisitos atendidos (Sprint 3 — Java Advanced)
+## Conceitos da disciplina aplicados
 
 - [x] **Frontend**: Thymeleaf server-side, layout responsivo autoral (conceito "monitor de sinais vitais"), telas de login, criação de conta, área do tutor (pets, cadastro de pet, registro de evento) e painel do veterinário
-- [x] **Flyway**: 7 migrations versionadas, schema completo + seed de dados + evoluções incrementais (novas espécies, novos campos, soft delete)
+- [x] **Flyway**: 8 migrations versionadas, schema completo + seed de dados + evoluções incrementais (novas espécies, novos campos, soft delete e pet de demonstração)
 - [x] **Spring Security**: 2 perfis (`TUTOR`, `VETERINARIO`) com permissões diferentes, proteção de rotas por perfil (`hasRole` + `@PreAuthorize`), senhas com hash BCrypt
 - [x] **4 fluxos completos** (além de CRUD): criação de conta (auto-cadastro de tutor); cadastrar pet; registrar evento → alerta automático; e resolução de alertas pelo veterinário
 - [x] **Validações** nos formulários (Bean Validation) e nos dados (regras de negócio nos services)
 - [x] Entidades JPA com relacionamentos, API REST RESTful, Design Patterns (Repository, DTO, Service, Builder, Strategy), paginação, cache, tratamento global de exceções (API e Web)
 - [x] **Extras além do mínimo pedido**: segunda regra de alerta via Strategy (hidratação, além da urina), soft delete de pet (preserva histórico), painel-resumo na tela inicial do tutor, exclusão de evento pela própria interface (tutor e veterinário), Assistente SOLIN (chat de orientação baseado em regras de negócio, sem depender de IA generativa externa)
+
+Os conceitos estão ligados a necessidades do domínio: **encapsulamento e camadas** mantêm as regras fora das telas; **Strategy** permite compor critérios de alerta por espécie sem acoplar o fluxo de registro; **DTOs e validação** controlam dados de entrada e saída; **Spring Security** separa os contextos de tutor e clínica; e **Flyway** mantém o banco reproduzível entre ambientes. As capturas em `docs/`, os diagramas Mermaid, as migrations e a coleção Postman são evidências complementares do desenvolvimento e dos fluxos.
 
 ---
 
@@ -358,7 +442,7 @@ src/main/java/br/com/fiap/solin/
 └── strategy/       → Regras de alerta (Strategy Pattern)
 
 src/main/resources/
-├── db/migration/   → Scripts Flyway (V1 a V7)
+├── db/migration/   → Scripts Flyway (V1 a V8)
 ├── templates/      → Telas Thymeleaf (login, tutor/, vet/, fragments/)
 └── static/css/     → Design system autoral (solin.css)
 
@@ -369,6 +453,8 @@ docs/               → Prints/evidências de funcionamento (ver seção "Evidê
 
 ##  Equipe
 
-Repositório GitHub: https://github.com/Rcsilva05/clyvo-vet
+Repositório GitHub: https://github.com/Rcsilva05/clyvo-vet-sprint-4
 
 Turma: **2TDSR** — FIAP — 2026
+
+> Esta pasta anexada não contém metadados Git; antes da entrega, confirmem que o repositório acima corresponde a esta versão, enviem as alterações e substituam/confirmem o link. Consultem também [`docs/entrega-sprint4.md`](docs/entrega-sprint4.md) para a lista de finalização e um roteiro de vídeo de até 15 minutos.

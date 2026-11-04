@@ -2,11 +2,6 @@
 target/
 *.jar
 *.war
-cat > .gitignore << 'EOF'
-# Build Maven
-target/
-*.jar
-*.war
 
 # IDE
 .idea/

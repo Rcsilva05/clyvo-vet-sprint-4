@@ -1,6 +1,6 @@
 # Diagrama Entidade–Relacionamento (DER)
 
-> Modelo físico do banco de dados Oracle/H2 do projeto SOLIN.
+> Modelo físico do PostgreSQL do projeto SOLIN, conforme as migrations Flyway V1–V7.
 
 ```mermaid
 erDiagram
@@ -9,48 +9,62 @@ erDiagram
     TB_PET ||--o{ TB_EVENTO : "registra"
     TB_PET ||--o{ TB_ALERTA : "recebe"
 
+    TB_ESPECIE {
+        BIGSERIAL id_especie PK
+        VARCHAR nm_especie "NOT NULL UNIQUE"
+        INTEGER qt_horas_max_urina "NOT NULL"
+        INTEGER qt_horas_max_agua "NOT NULL"
+    }
+
     TB_TUTOR {
-        NUMBER id_tutor PK
-        VARCHAR2 nm_tutor "NOT NULL"
-        VARCHAR2 ds_email "NOT NULL UNIQUE"
-        VARCHAR2 nr_telefone
+        BIGSERIAL id_tutor PK
+        VARCHAR nm_tutor "NOT NULL"
+        VARCHAR ds_email "NOT NULL UNIQUE"
+        VARCHAR nr_telefone
         DATE dt_cadastro "NOT NULL"
     }
 
-    TB_ESPECIE {
-        NUMBER id_especie PK
-        VARCHAR2 nm_especie "NOT NULL UNIQUE"
-        NUMBER qt_horas_max_urina "NOT NULL"
-    }
-
     TB_PET {
-        NUMBER id_pet PK
-        VARCHAR2 nm_pet "NOT NULL"
-        VARCHAR2 ds_raca
+        BIGSERIAL id_pet PK
+        VARCHAR nm_pet "NOT NULL"
+        VARCHAR ds_raca
         DATE dt_nascimento
-        NUMBER vl_peso_kg
-        VARCHAR2 tp_sexo
-        NUMBER id_tutor FK "NOT NULL"
-        NUMBER id_especie FK "NOT NULL"
+        DOUBLE vl_peso_kg
+        VARCHAR tp_sexo
+        BOOLEAN st_ativo "NOT NULL DEFAULT TRUE"
+        BIGINT id_tutor FK "NOT NULL"
+        BIGINT id_especie FK "NOT NULL"
     }
 
     TB_EVENTO {
-        NUMBER id_evento PK
-        VARCHAR2 tp_evento "NOT NULL"
+        BIGSERIAL id_evento PK
+        VARCHAR tp_evento "NOT NULL"
         TIMESTAMP dh_evento "NOT NULL"
-        VARCHAR2 tp_origem "NOT NULL"
-        VARCHAR2 ds_observacao
-        NUMBER id_pet FK "NOT NULL"
+        VARCHAR tp_origem "NOT NULL"
+        VARCHAR ds_observacao
+        BIGINT id_pet FK "NOT NULL"
     }
 
     TB_ALERTA {
-        NUMBER id_alerta PK
-        VARCHAR2 tp_nivel "NOT NULL"
-        VARCHAR2 ds_mensagem "NOT NULL"
+        BIGSERIAL id_alerta PK
+        VARCHAR tp_nivel "NOT NULL"
+        VARCHAR ds_mensagem "NOT NULL"
         TIMESTAMP dh_gerado "NOT NULL"
-        NUMBER st_resolvido "NOT NULL"
-        NUMBER id_pet FK "NOT NULL"
+        BOOLEAN st_resolvido "NOT NULL DEFAULT FALSE"
+        BIGINT id_pet FK "NOT NULL"
     }
+
+    TB_USUARIO {
+        BIGSERIAL id_usuario PK
+        VARCHAR ds_email "NOT NULL UNIQUE"
+        VARCHAR ds_senha_hash "NOT NULL"
+        VARCHAR nm_usuario "NOT NULL"
+        VARCHAR tp_perfil "NOT NULL"
+        BOOLEAN st_ativo "NOT NULL DEFAULT TRUE"
+        BIGINT id_tutor FK "UNIQUE NULLABLE"
+    }
+
+    TB_TUTOR ||--o| TB_USUARIO : "login do tutor"
 ```
 
 ## Coerência com o Diagrama de Classes
@@ -64,8 +78,9 @@ Cada entidade JPA do diagrama de classes mapeia diretamente para uma tabela aqui
 | `Pet` | `TB_PET` | `id_pet` |
 | `Evento` | `TB_EVENTO` | `id_evento` |
 | `Alerta` | `TB_ALERTA` | `id_alerta` |
+| `Usuario` | `TB_USUARIO` | `id_usuario` |
 
-Os enums (`TipoEvento`, `NivelAlerta`, `OrigemEvento`, `Sexo`) são persistidos como `VARCHAR2` pelo Hibernate via `@Enumerated(EnumType.STRING)` — opção escolhida ao invés de `ORDINAL` porque manter a string facilita a leitura direta no banco e evita problemas se a ordem dos valores do enum mudar no futuro.
+Os enums (`TipoEvento`, `NivelAlerta`, `OrigemEvento`, `Sexo`, `Perfil`) são persistidos como `VARCHAR` pelo Hibernate via `@Enumerated(EnumType.STRING)` — opção escolhida ao invés de `ORDINAL` porque manter a string facilita a leitura direta no banco e evita problemas se a ordem dos valores do enum mudar no futuro.
 
 ## Índices
 
@@ -75,4 +90,4 @@ Os enums (`TipoEvento`, `NivelAlerta`, `OrigemEvento`, `Sexo`) são persistidos 
 
 ## Cascateamento
 
-Quando um `Tutor` é excluído, todos os `Pets` dele são excluídos (cascade). Quando um `Pet` é excluído, todos os `Eventos` e `Alertas` dele também são (cascade + orphanRemoval). Isso evita registros órfãos no banco.
+O fluxo disponível para pets usa **soft delete** (`ST_ATIVO = false`): preserva eventos e alertas para histórico. As FKs mantêm os vínculos de domínio; exclusões físicas em cascata não são o fluxo de remoção de pets da interface.
