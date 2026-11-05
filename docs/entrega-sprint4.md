@@ -1,6 +1,6 @@
 # Entrega final — Clyvo Vet / SOLIN — 4º Sprint
 
-Este checklist organiza a avaliação e o envio do projeto. As regras do professor e as instruções exibidas no portal da disciplina prevalecem sobre estas orientações; não é possível determinar por esta pasta se o portal exige ZIP, link do GitHub ou vídeo.
+Este checklist organiza a avaliação e o envio do projeto. As regras do professor e as instruções exibidas no portal da disciplina prevalecem sobre estas orientações; não é possível determinar por esta pasta se o portal exige ZIP, link do GitHub ou outro material complementar.
 
 ## Status da publicação e avaliação online
 
@@ -33,12 +33,6 @@ O repositório inclui os componentes do projeto e evidências de diferentes part
 - `README.md`: contexto, arquitetura, tecnologias, instruções locais, credenciais de demonstração e este link para o checklist.
 
 As capturas de migrations refletem a execução que foi registrada quando foram feitas; a imagem de sete migrations é anterior à migration V8. Os scripts versionados em `src/main/resources/db/migration/` incluem a V8.
-
-## Vídeo
-
-Não há vídeo gravado, link confirmado ou arquivo de vídeo incluído nesta entrega. A submissão está planejada sem vídeo; confirme a rubrica e as instruções do portal antes de enviar. Se o vídeo for obrigatório, será necessário gravar e entregar esse item separadamente — o roteiro de referência abaixo não é uma gravação nem substitui um vídeo solicitado.
-
-Roteiro de referência opcional, somente se a disciplina exigir apresentação gravada: contexto e equipe; fluxo de login e perfis; cadastro/seleção de pet e registro de evento; painel veterinário e alertas; arquitetura, migrations, diagramas e API. Não use dados pessoais ou dados reais de animais.
 
 ## ZIP ou link no portal
 
