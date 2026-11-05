@@ -1,53 +1,70 @@
-# Finalização da entrega — 4º Sprint
+# Entrega final — Clyvo Vet / SOLIN — 4º Sprint
 
-Este checklist separa o que já existe nesta pasta do que depende de publicação ou ação da equipe. Não substitui a conferência final da rubrica do professor.
+Este checklist organiza a avaliação e o envio do projeto. As regras do professor e as instruções exibidas no portal da disciplina prevalecem sobre estas orientações; não é possível determinar por esta pasta se o portal exige ZIP, link do GitHub ou vídeo.
 
-## Evidências já incluídas
+## Status da publicação e avaliação online
 
-- Capturas de telas de cadastro, login, tutor, alertas, assistente e painel veterinário em `docs/`.
-- Diagrama de classes e DER em `documentos/diagramas/` (Mermaid).
-- Migrations versionadas de banco em `src/main/resources/db/migration/`.
-- A migration V8 associa o pet `Luna` à conta `tutor.demo@solin.com`, para o formulário de eventos ter uma opção de teste.
-- Coleção Postman da API em `documentos/postman/SOLIN_API.postman_collection.json`.
-- README com contexto do problema, arquitetura, tecnologias, padrões, fluxos, credenciais locais e instruções para executar.
-- Dockerfile e perfil Docker Compose para executar a aplicação com PostgreSQL local.
+- **Aplicação:** [https://clyvo-vet-sprint-4.onrender.com/solin/login](https://clyvo-vet-sprint-4.onrender.com/solin/login)
+- **Banco:** PostgreSQL hospedado no Neon, como serviço separado do Web Service no Render. Não é necessário provisionar outro serviço ou banco para avaliar.
+- **Disponibilidade:** o serviço gratuito do Render pode entrar em repouso após inatividade; a primeira requisição depois disso pode demorar.
+- **Validação informada pela equipe:** deploy confirmado; registro de evento pela área do tutor e painel veterinário testados na aplicação publicada.
 
-## Publicação e validação
+### Roteiro rápido de avaliação
 
-- **Acesso online:** [https://clyvo-vet-sprint-4.onrender.com/solin/login](https://clyvo-vet-sprint-4.onrender.com/solin/login).
-- **Deploy e testes confirmados:** a aplicação está publicada no Render; foram testados o registro de evento pela área do tutor e o painel veterinário.
-- **Hospedagem e dados:** o serviço gratuito do Render pode entrar em repouso após inatividade. O PostgreSQL usado pela aplicação está no Neon, como serviço separado do Render.
-- **Confirmar o vídeo:** o README mantém um link que já constava no material recebido, mas o conteúdo e a duração não foram verificados. Confirmem ou substituam pelo vídeo do 4º Sprint, com no máximo 15 minutos e participação de todos os integrantes listados no README.
+1. Abra a página de login online. Se a primeira abertura demorar, aguarde o serviço gratuito do Render sair do repouso e tente novamente.
+2. Na aba **Sou Tutor**, use `tutor.demo@solin.com` / `demo123`. A conta tem o pet de demonstração Luna. Abra **Registrar evento**, escolha Luna, preencha os campos e salve.
+3. Encerre a sessão e, na aba **Sou Veterinário**, use `vet.demo@clyvovet.com.br` / `demo123`. Confira o painel de alertas e a lista de pets.
+4. As contas são públicas e destinadas somente à demonstração. Não insira dados pessoais, de clientes ou de animais reais. O ambiente online é compartilhado e utiliza o banco Neon.
 
-## Roteiro sugerido para o vídeo (aprox. 13 minutos)
+As credenciais acima são contas de demonstração da aplicação, não credenciais do Render ou do Neon. As mesmas contas estão documentadas no README para a avaliação local; o banco local do Docker Compose é separado do banco online no Neon.
 
-| Tempo | Demonstração / narrativa |
-|---|---|
-| 0:00–1:00 | Apresentar equipe, problema de acompanhar a rotina de saúde dos pets e proposta do SOLIN para a Clyvo Vet. |
-| 1:00–2:30 | Explicar o fluxo tutor–clínica e a arquitetura em camadas; contextualizar Spring Boot, PostgreSQL e Thymeleaf. |
-| 2:30–4:00 | Mostrar o login e os perfis; explicar como Spring Security restringe dados e áreas por papel. |
-| 4:00–6:30 | Demonstrar a área do tutor: pets, ficha, registro de evento e como os dados alimentam os alertas. |
-| 6:30–8:30 | Explicar Strategy com os limites por espécie e demonstrar alertas amarelo/vermelho usando dados preparados para a apresentação. |
-| 8:30–10:00 | Demonstrar o painel veterinário e a resolução de um alerta. |
-| 10:00–11:30 | Relacionar DTOs, validação, JPA/Repository e Flyway aos problemas concretos que resolvem; mostrar os diagramas e migrations. |
-| 11:30–13:00 | Mostrar a API/coleção Postman, comentar UI/UX e decisões de tecnologia, apresentar o endereço publicado e concluir. Todos os integrantes devem aparecer e participar durante o vídeo. |
+## Evidências e conteúdo do projeto
 
-Mantenham alguns minutos de margem para a edição e não apresentem alertas como diagnóstico veterinário. Usem contas e dados de demonstração, sem exibir informações pessoais reais.
+O repositório inclui os componentes do projeto e evidências de diferentes partes do trabalho:
 
-## Execução local para ensaio
+- `src/`: aplicação Java/Spring Boot, interface web Thymeleaf, API REST e recursos estáticos.
+- `pom.xml`, `Dockerfile` e `docker-compose.yml`: dependências e instruções para build e execução local.
+- `src/main/resources/db/migration/`: oito migrations Flyway com schema, dados de demonstração e evoluções do banco.
+- `docs/`: capturas da interface de tutor e veterinário, formulários, alertas, assistente e evidências de banco/migrations.
+- `documentos/diagramas/`: diagramas de classes e entidade-relacionamento.
+- `documentos/postman/`: coleção Postman da API REST.
+- `documentos/Prints/`: capturas de CRUD, API, Swagger e Postman das etapas anteriores.
+- `documentos/Cronograma_Sprint1.docx`: cronograma disponível no material do projeto.
+- `README.md`: contexto, arquitetura, tecnologias, instruções locais, credenciais de demonstração e este link para o checklist.
 
-Na raiz `clyvo-vet`, com Docker Desktop ativo:
+As capturas de migrations refletem a execução que foi registrada quando foram feitas; a imagem de sete migrations é anterior à migration V8. Os scripts versionados em `src/main/resources/db/migration/` incluem a V8.
+
+## Vídeo
+
+Não há vídeo gravado, link confirmado ou arquivo de vídeo incluído nesta entrega. A submissão está planejada sem vídeo; confirme a rubrica e as instruções do portal antes de enviar. Se o vídeo for obrigatório, será necessário gravar e entregar esse item separadamente — o roteiro de referência abaixo não é uma gravação nem substitui um vídeo solicitado.
+
+Roteiro de referência opcional, somente se a disciplina exigir apresentação gravada: contexto e equipe; fluxo de login e perfis; cadastro/seleção de pet e registro de evento; painel veterinário e alertas; arquitetura, migrations, diagramas e API. Não use dados pessoais ou dados reais de animais.
+
+## ZIP ou link no portal
+
+O formato depende das instruções da disciplina. Confira no portal se é solicitado arquivo `.zip`, link do repositório ou ambos; não envie apenas o ZIP nem apenas o link sem verificar o que foi pedido.
+
+Se o portal aceitar o link, use o [repositório da entrega](https://github.com/Rcsilva05/clyvo-vet-sprint-4), branch `main`. Se pedir um ZIP:
+
+1. Abra o repositório no GitHub e selecione **Code → Download ZIP** na branch `main`.
+2. Descompacte o arquivo em uma pasta temporária e confira que há uma pasta raiz com `README.md`, `pom.xml`, `Dockerfile`, `docker-compose.yml`, `src/`, `docs/` e `documentos/` (incluindo diagramas, Postman e cronograma).
+3. Confirme que não está enviando `.env`, URL/senha de conexão ao Neon, outros segredos, `.git`, `target/`, `.idea/`, caches, logs ou arquivos temporários. O ZIP baixado do GitHub contém os arquivos versionados e não inclui o histórico `.git` nem arquivos locais ignorados. As credenciais de demonstração que constam no README são para avaliação; não são segredos de infraestrutura.
+4. Envie o formato e os arquivos pedidos pelo portal, respeitando limites de tamanho e nomes de arquivo definidos pela disciplina. Guarde o comprovante de envio.
+
+## Execução local (opcional para avaliação)
+
+Na raiz do projeto, com Docker Desktop ativo:
 
 ```powershell
 docker compose --profile app up -d --build
 ```
 
-Abrir `http://localhost:8080/solin/login`. A conta de demonstração veterinária é `vet.demo@clyvovet.com.br` / `demo123`; a conta tutor é `tutor.demo@solin.com` / `demo123` e tem o pet de teste Luna. Para ver os pets de outro tutor, entre com a conta correspondente: `maria.silva@email.com` / `tutor123` (Rex e Mimi) ou `joao.pereira@email.com` / `tutor123` (Thor). A equipe também pode cadastrar um tutor adicional para mostrar o fluxo de criação de conta.
+Abra `http://localhost:8080/solin/login`. A conta tutor `tutor.demo@solin.com` / `demo123` tem o pet Luna; a conta veterinário `vet.demo@clyvovet.com.br` / `demo123` acessa o painel clínico. O Compose inicia um PostgreSQL local separado do banco Neon e do serviço Render.
 
-Uma conta nova começa sem pets e, por isolamento entre tutores, o seletor em **Registrar evento** lista apenas os pets vinculados à conta autenticada. Cadastre primeiro um pet pela opção **Cadastrar pet** nessa mesma conta. Ao terminar:
+Para encerrar a aplicação e o banco local sem remover o volume de dados:
 
 ```powershell
 docker compose --profile app down
 ```
 
-Os registros do banco persistem no volume `solin-db-data`; não use a opção `-v` se quiser preservá-los.
+Não use `-v` se quiser preservar os dados locais. O portal pode solicitar outros itens além dos listados aqui; siga sempre as instruções oficiais da disciplina.

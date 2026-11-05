@@ -14,11 +14,9 @@
 
 ## Entrega final — acesso e apresentação
 
-**Acesso online:** [https://clyvo-vet-sprint-4.onrender.com/solin/login](https://clyvo-vet-sprint-4.onrender.com/solin/login). O deploy no Render foi confirmado e foram testados o registro de evento pelo tutor e o painel veterinário. O serviço gratuito do Render pode entrar em repouso após um período sem uso e demorar para responder na primeira requisição ao ser reativado. O banco PostgreSQL fica no Neon, como serviço separado do Render; os dados da aplicação são armazenados nesse banco. Para execução local, use `http://localhost:8080/solin/login`.
+**Acesso online:** [https://clyvo-vet-sprint-4.onrender.com/solin/login](https://clyvo-vet-sprint-4.onrender.com/solin/login). O deploy foi confirmado; o registro de evento pela área do tutor e o painel veterinário foram testados. O serviço gratuito do Render pode entrar em repouso após inatividade e demorar a responder na primeira visita. O PostgreSQL fica no Neon, separado do Render.
 
-**Vídeo informado no material anterior:** [YouTube](https://www.youtube.com/watch?v=i8mMz05rV80). Antes da entrega, confirmem que este é o vídeo do 4º Sprint, que dura no máximo 15 minutos e que todos os integrantes aparecem e participam. Não foi possível confirmar o conteúdo do vídeo a partir desta pasta.
-
-O link do vídeo acima veio do material anterior; confirmem que corresponde ao 4º Sprint, tem no máximo 15 minutos e inclui a participação de todos os integrantes. Mantenham os links acessíveis para avaliação.
+**Vídeo:** não há vídeo gravado nem arquivo/link de vídeo incluído nesta entrega; a submissão está planejada sem vídeo. Confira a rubrica e as instruções do portal da disciplina para saber se ele é obrigatório. Caso seja, será necessário gravar e enviar o vídeo separadamente.
 
 ---
 
@@ -88,7 +86,7 @@ A metáfora visual é a de um monitor clínico: fundo azul-petróleo escuro, car
 | Diagramas de domínio e dados | [`documentos/diagramas/`](documentos/diagramas/) | Relações entre entidades e estrutura persistida no PostgreSQL |
 | Scripts SQL versionados | [`src/main/resources/db/migration/`](src/main/resources/db/migration/) | Criação, evolução e dados de demonstração do banco via Flyway |
 | Contrato de API | [`documentos/postman/SOLIN_API.postman_collection.json`](documentos/postman/SOLIN_API.postman_collection.json) e Swagger | Chamadas REST para integração e validação técnica |
-| Roteiro e pendências da entrega | [`docs/entrega-sprint4.md`](docs/entrega-sprint4.md) | Preparação do ensaio, evidências existentes e ações externas pendentes |
+| Checklist da entrega | [`docs/entrega-sprint4.md`](docs/entrega-sprint4.md) | Avaliação, conteúdo do ZIP e conferência das instruções do portal |
 
 ---
 
@@ -146,33 +144,26 @@ URL base: `http://localhost:8080/solin`
 
 ### Acesso para avaliação (login pronto, sem precisar cadastrar nada)
 
-Para quem for rodar o projeto e avaliar sem cadastrar conta própria, este é o login do veterinário — é o que dá acesso ao **painel completo da clínica** (todos os pets, todos os alertas):
+Use os seguintes passos no [site publicado](https://clyvo-vet-sprint-4.onrender.com/solin/login):
 
-```
-Email: marcel.wagner@clyvovet.com.br
-Senha: tranquilo123
-```
+1. Na aba **Sou Tutor**, entre com `tutor.demo@solin.com` / `demo123`. A conta tem o pet de demonstração Luna. Abra **Registrar evento**, selecione Luna, preencha os dados do evento e salve. Este fluxo já foi testado na aplicação publicada.
+2. Saia da conta e, na aba **Sou Veterinário**, entre com `vet.demo@clyvovet.com.br` / `demo123`. Confira o painel clínico de alertas e a lista de pets. O painel veterinário já foi testado na aplicação publicada.
+3. Use apenas dados de demonstração; não cadastre informações pessoais ou clínicas reais. O ambiente online é compartilhado e o banco Neon mantém os dados da aplicação.
 
-Se por algum motivo essa conta não funcionar no banco de quem for testar, existe uma segunda conta de veterinário, mais genérica, criada só para isso (mesmo acesso, sem nome vinculado a um veterinário específico):
+O serviço gratuito pode estar em repouso; se a primeira abertura demorar, aguarde e tente novamente. Para avaliar localmente, siga [Como rodar](#como-rodar).
 
-```
-Email: vet.demo@clyvovet.com.br
-Senha: demo123
-```
+As contas de demonstração para a aplicação publicada e para o banco local criado pelas migrations são:
 
-Ambas aparecem também na própria tela de login, na aba **"Sou Veterinário"**, então dá pra copiar direto de lá também. As senhas não ficam em texto puro em lugar nenhum do banco — são guardadas com hash BCrypt na tabela `TB_USUARIO`; o texto puro acima é só para facilitar o login de quem for avaliar o projeto.
+| Perfil | Email | Senha | Dados de demonstração |
+|---|---|---|---|
+| Tutor | `tutor.demo@solin.com` | `demo123` | Pet Luna |
+| Veterinário | `vet.demo@clyvovet.com.br` | `demo123` | Painel clínico |
 
-Já do lado do tutor, não existe "a" conta certa para entrar — **qualquer pessoa pode criar a própria conta** pela tela de login, clicando em **"Criar conta"** (rota pública `/cadastro`, sem precisar estar logado). É assim que testamos o sistema também: cada um de nós criou a própria conta de tutor, cadastrou os próprios pets e foi registrando eventos de verdade, sem senha fixa nenhuma. Se preferir não criar uma conta nova, também existe uma de demonstração:
+As senhas são armazenadas no banco como hashes BCrypt; os valores em texto nesta tabela existem apenas para permitir a avaliação com as contas públicas de demonstração. Não são credenciais do banco. Use o ambiente publicado somente para avaliação; seus dados são compartilhados e persistem no Neon.
 
-| Perfil | Email | Senha |
-|---|---|---|
-| Tutor (demonstração) | `tutor.demo@solin.com` | `demo123` |
+Também é possível criar uma conta de tutor pela opção **Criar conta** na página de login (rota pública `/cadastro`). Uma conta nova não tem pets: cadastre um pet nessa mesma conta antes de abrir **Registrar evento**. Cada tutor só pode consultar e registrar eventos para os próprios pets.
 
-Essa conta demonstração tem o pet **Luna (Cachorro)**, associado pela migration `V8__pet_demo_tutor.sql`, para que o formulário de registro de evento já tenha uma opção. Os pets **Rex** e **Mimi** pertencem ao tutor `maria.silva@email.com` (senha `tutor123`); **Thor** pertence a `joao.pereira@email.com` (senha `tutor123`). Por segurança, cada tutor só vê os pets associados à própria conta.
-
-**Se o seletor de pet estiver vazio em uma conta recém-criada**, primeiro use **Cadastrar pet** e cadastre um pet nessa mesma conta; só depois ele poderá ser escolhido em **Registrar evento**. O formulário não lista pets pertencentes a outras contas. Para ensaiar sem cadastrar um pet, entre com uma das contas de demonstração que já possui pet (Tutor demonstração, Maria ou João).
-
-> As contas genéricas vêm da migration `V4__contas_demonstracao_genericas.sql`; o veterinário nomeado e os tutores/pets iniciais vêm da `V3__carga_inicial_dados.sql`. Se dados cadastrados anteriormente não aparecerem, confirme que a aplicação está conectada ao mesmo PostgreSQL/volume de antes: este Compose usa o volume `solin-db-data` (prefixado pelo nome do projeto Compose) e não lê automaticamente dados de outro banco local ou remoto. Não remova volumes para tentar recuperar dados.
+O banco do Docker Compose local é separado do banco Neon e usa o volume `solin-db-data`. Dados gravados em um ambiente não são copiados para o outro. Não remova o volume local se quiser preservar os dados desse ambiente.
 
 ### Variáveis de ambiente (opcional)
 
@@ -194,35 +185,13 @@ $env:DB_PASSWORD = "solin123"
 mvn spring-boot:run
 ```
 
-### Implantação no Render com GitHub
+### Publicação e envio da entrega
 
-O repositório da entrega é [`Rcsilva05/clyvo-vet-sprint-4`](https://github.com/Rcsilva05/clyvo-vet-sprint-4). A raiz de Git e do `Dockerfile` é a pasta `clyvo-vet` (não a pasta pai `orbitalgro-main`). O Render deve construir o serviço pelo Dockerfile; não use `docker-compose.yml` no Render. O Compose serve somente para desenvolvimento local.
+A versão publicada está no repositório [`Rcsilva05/clyvo-vet-sprint-4`](https://github.com/Rcsilva05/clyvo-vet-sprint-4), branch `main`. O serviço Render já está conectado ao banco PostgreSQL do Neon; não é necessário criar outro serviço ou banco para avaliar o projeto. O Docker Compose abaixo é somente para execução local.
 
-**1. Publique esta entrega no repositório novo:** o repositório foi criado vazio para esta entrega. Confira `git status` e `git diff`, adicione somente os arquivos listados, revise `git diff --cached`, faça commit e envie a branch `main` para o repositório novo. O comando configura um remoto separado chamado `sprint4` e não altera nem envia nada para o `origin` antigo:
+O portal e a rubrica da disciplina determinam o formato de entrega. Confirme se solicitam um arquivo `.zip`, o link do repositório ou ambos; não presuma que o ZIP é obrigatório. Se aceitarem link, compartilhe o repositório acima. Se solicitarem ZIP, abra o repositório no GitHub, selecione **Code → Download ZIP** na branch `main` e confira o conteúdo após descompactar. O arquivo deve conter `README.md`, `pom.xml`, `Dockerfile`, `docker-compose.yml`, `src/`, `docs/`, `documentos/`, `.gitignore` e `.dockerignore`.
 
-```powershell
-git status
-git diff
-git remote add sprint4 https://github.com/Rcsilva05/clyvo-vet-sprint-4.git
-git add .gitignore .dockerignore Dockerfile README.md docker-compose.yml documentos/diagramas/DER.md documentos/diagramas/diagrama-de-classes.md docs/entrega-sprint4.md src/main/resources/application.properties src/main/resources/db/migration/V8__pet_demo_tutor.sql
-git diff --cached
-git commit -m "Prepare Clyvo Vet for final deployment"
-git push -u sprint4 main
-```
-
-Se o repositório novo deixar de estar vazio antes do push, pare e confira suas branches e histórico; não use `--force`. Se `sprint4` já existir como remoto, confira primeiro `git remote -v` e não o substitua às cegas. Não envie para `origin`, que continua apontando para `Rcsilva05/clyvo-vet`.
-
-**2. Crie um PostgreSQL no Render:** no Dashboard, escolha **New → PostgreSQL**, defina nome e região e guarde os detalhes de conexão. Escolha a mesma região do Web Service. Use o **Internal Database URL/hostname** para conectar serviços da mesma conta e região. O banco remoto é separado do PostgreSQL local do Docker: os dados locais não são copiados para o Render. No primeiro início, Flyway cria o schema e as migrations carregam dados de demonstração.
-
-**3. Crie o Web Service a partir da branch:** escolha **New → Web Service**, conecte o repositório GitHub e a branch enviada acima. Defina **Language = Docker**, **Dockerfile Path = `./Dockerfile`** e mantenha **Docker Command** vazio (usa o `ENTRYPOINT` da imagem). Não configure um disco persistente para arquivos da aplicação: os dados ficam no PostgreSQL. O serviço e o PostgreSQL devem estar na mesma região.
-
-**4. Configure Environment Variables no Web Service:** use os dados internos exibidos na tela **Connect** do PostgreSQL. O formato de `DB_URL` deve ser JDBC, por exemplo `jdbc:postgresql://HOST_INTERNO:5432/NOME_DO_BANCO`; preencha `DB_USER` e `DB_PASSWORD` com os valores daquele banco. `PORT` é injetada pelo Render e a aplicação já a respeita; não fixe outra porta. Cadastre credenciais no painel do Render, nunca no README, YAML, Git ou Dockerfile. O serviço executa as migrations Flyway ao iniciar.
-
-**5. Implantação e validação:** para uma nova implantação, inicie o deploy pelo Dashboard, acompanhe os logs até `Started SolinApiApplication` e valide login, registro de evento e painel de alertas pela URL pública do serviço. Esta entrega já está publicada; o acesso atual está no topo deste README. Como as credenciais de demonstração são conhecidas e o app público permite operações, use-o somente para avaliação, sem dados pessoais/reais; não trate estes logins como contas privadas.
-
-**Status da publicação:** o Web Service está publicado no Render e conectado ao PostgreSQL independente no Neon. Para referência sobre a configuração, consulte os guias oficiais de [deploy Docker](https://render.com/docs/docker) e [criação/conexão do PostgreSQL](https://render.com/docs/postgresql-creating-connecting).
-
-Para gerar e executar a imagem localmente (com o PostgreSQL já disponível na porta `5432`):
+Não inclua `.env`, URLs ou senhas do banco, outros segredos, a pasta `.git`, `target/`, caches da IDE, logs ou arquivos temporários. As duas contas de demonstração descritas neste README são intencionais para avaliação e não dão acesso à infraestrutura. O ZIP baixado do GitHub contém os arquivos versionados, não o histórico Git nem arquivos locais ignorados. Não altere a configuração do Render/Neon para preparar o envio.
 
 Para gerar e executar a imagem localmente (com o PostgreSQL já disponível na porta `5432`):
 
@@ -457,4 +426,4 @@ Repositório GitHub: https://github.com/Rcsilva05/clyvo-vet-sprint-4
 
 Turma: **2TDSR** — FIAP — 2026
 
-> Esta pasta anexada não contém metadados Git; antes da entrega, confirmem que o repositório acima corresponde a esta versão, enviem as alterações e substituam/confirmem o link. Consultem também [`docs/entrega-sprint4.md`](docs/entrega-sprint4.md) para a lista de finalização e um roteiro de vídeo de até 15 minutos.
+> A versão publicada desta entrega está no repositório acima, branch `main`. Consulte [`docs/entrega-sprint4.md`](docs/entrega-sprint4.md) para o roteiro de avaliação, a lista de evidências e as orientações de envio pelo portal. Não há vídeo gravado ou incluído nesta entrega; confirme se a disciplina o exige.
