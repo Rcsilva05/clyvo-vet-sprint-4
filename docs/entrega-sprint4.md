@@ -29,10 +29,10 @@ O repositório inclui os componentes do projeto e evidências de diferentes part
 - `documentos/diagramas/`: diagramas de classes e entidade-relacionamento.
 - `documentos/postman/`: coleção Postman da API REST.
 - `documentos/Prints/`: capturas de CRUD, API, Swagger e Postman das etapas anteriores.
-- `documentos/Cronograma_Sprint1.docx`: cronograma disponível no material do projeto.
+- `documentos/Cronograma_Sprint1.docx`: cronograma histórico da Sprint 1; não representa o planejamento da Sprint 4.
 - `README.md`: contexto, arquitetura, tecnologias, instruções locais, credenciais de demonstração e este link para o checklist.
 
-As capturas de migrations refletem a execução que foi registrada quando foram feitas; a imagem de sete migrations é anterior à migration V8. Os scripts versionados em `src/main/resources/db/migration/` incluem a V8.
+**Evidência histórica:** `docs/intellij-console-flyway-7-migrations.png` mostra sete migrations aplicadas em uma execução anterior à V8; não deve ser interpretada como o estado atual do banco. O estado atual do projeto inclui as migrations V1 a V8, listadas em `src/main/resources/db/migration/`. O cronograma em `documentos/Cronograma_Sprint1.docx` é material da Sprint 1, não um planejamento da Sprint 4. Esses arquivos foram mantidos como evidência histórica; nenhum cronograma ou captura atual foi criado nesta atualização.
 
 ## ZIP ou link no portal
 

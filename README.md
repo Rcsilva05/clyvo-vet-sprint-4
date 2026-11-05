@@ -286,7 +286,7 @@ Prints reais de um teste completo do sistema rodando local, cobrindo os dois per
 
 **1. Banco de dados e migrations**
 
-Console do IntelliJ com a aplicação subindo e as 7 migrations do Flyway aplicadas com sucesso (evidência capturada antes da V8):
+**Evidência histórica — não representa o estado atual do banco:** esta captura do console registra a execução de sete migrations, antes da criação da V8. O estado atual do projeto contém as migrations V1 a V8; consulte os scripts versionados abaixo para a definição atual:
 
 ![Console do IntelliJ com as 7 migrations do Flyway aplicadas](docs/intellij-console-flyway-7-migrations.png)
 
