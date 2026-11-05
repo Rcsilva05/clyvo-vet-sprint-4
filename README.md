@@ -16,6 +16,29 @@
 
 **Acesso online:** [https://clyvo-vet-sprint-4.onrender.com/solin/login](https://clyvo-vet-sprint-4.onrender.com/solin/login). O deploy foi confirmado; o registro de evento pela área do tutor e o painel veterinário foram testados. O serviço gratuito do Render pode entrar em repouso após inatividade e demorar a responder na primeira visita. O PostgreSQL fica no Neon, separado do Render.
 
+## Entrega final — informações para avaliação
+
+**Status:** aplicação publicada e deploy confirmado. Foram testados o registro de evento pela área do tutor e o painel de alertas veterinário. O PostgreSQL de produção está no Neon, separado do serviço web no Render. O plano gratuito do Render pode entrar em repouso; aguarde alguns instantes se a primeira abertura demorar.
+
+### Acesso e roteiro de avaliação
+
+1. Abra o [SOLIN publicado](https://clyvo-vet-sprint-4.onrender.com/solin/login).
+2. Na aba **Sou Tutor**, entre com `tutor.demo@solin.com` / `demo123`. O pet de demonstração Luna já está cadastrado. Acesse **Registrar evento**, escolha Luna, preencha os dados e salve.
+3. Encerre a sessão e, na aba **Sou Veterinário**, entre com `vet.demo@clyvovet.com.br` / `demo123`. Confira o painel de alertas e a lista de pets.
+4. As contas são públicas, apenas para demonstração. Não cadastre informações pessoais, de clientes ou de animais reais; o ambiente online é compartilhado.
+
+### Requisitos atendidos e evidências
+
+- [x] Aplicação web Java 17 / Spring Boot com áreas de tutor e veterinário, autenticação e autorização por perfil.
+- [x] Fluxos completos de cadastro de tutor, cadastro de pet, registro de evento com geração automática de alertas e resolução de alertas pelo veterinário.
+- [x] PostgreSQL versionado com **8 migrations Flyway (V1–V8)**, incluindo schema, dados de demonstração e evoluções.
+- [x] Execução local em Docker Compose; instruções em [Como rodar](#como-rodar).
+- [x] API REST documentada e coleção para validação no [Postman](documentos/postman/SOLIN_API.postman_collection.json).
+- [x] Evidências visuais incluídas no repositório: [painel do tutor](docs/tutor-meus-pets-dashboard.png), [registro de evento](docs/tutor-registrar-evento-formulario.png), [alerta na ficha do pet](docs/tutor-pet-detalhe-alerta-vermelho.png), [painel veterinário com alerta pendente](docs/vet-painel-alerta-pendente.png), [alerta resolvido](docs/vet-painel-alerta-resolvido.png), [lista de pets da clínica](docs/vet-todos-os-pets-lista.png) e [Assistente SOLIN](docs/tutor-assistente-chat.png).
+- [x] Diagramas de domínio e dados em [documentos/diagramas](documentos/diagramas/); capturas complementares da API em [documentos/Prints](documentos/Prints/).
+
+**Links para conferência:** [repositório GitHub — branch `main`](https://github.com/Rcsilva05/clyvo-vet-sprint-4/tree/main) · [aplicação publicada](https://clyvo-vet-sprint-4.onrender.com/solin/login) · [instruções locais](#como-rodar) · [detalhes complementares da entrega](docs/entrega-sprint4.md).
+
 O SOLIN evoluiu de uma API REST para uma aplicação web completa em **Spring Boot**. A ideia central é acompanhar a rotina diária de saúde de um pet (se urinou, se comeu, se bebeu água), seja o tutor registrando manualmente ou um sensor IoT enviando os dados, e criar um **alerta automático** quando o intervalo ultrapassa o limite configurado para aquela espécie. Esta entrega consolida os fluxos web, o controle de acesso com **Spring Security**, o versionamento do banco com **Flyway**, as evidências técnicas e a preparação para execução em container. O projeto é ambientado numa clínica fictícia, a **Clyvo Vet**.
 
 ---
@@ -82,7 +105,7 @@ A metáfora visual é a de um monitor clínico: fundo azul-petróleo escuro, car
 | Diagramas de domínio e dados | [`documentos/diagramas/`](documentos/diagramas/) | Relações entre entidades e estrutura persistida no PostgreSQL |
 | Scripts SQL versionados | [`src/main/resources/db/migration/`](src/main/resources/db/migration/) | Criação, evolução e dados de demonstração do banco via Flyway |
 | Contrato de API | [`documentos/postman/SOLIN_API.postman_collection.json`](documentos/postman/SOLIN_API.postman_collection.json) e Swagger | Chamadas REST para integração e validação técnica |
-| Checklist da entrega | [`docs/entrega-sprint4.md`](docs/entrega-sprint4.md) | Avaliação, conteúdo do ZIP e conferência das instruções do portal |
+| Detalhes complementares da entrega | [`docs/entrega-sprint4.md`](docs/entrega-sprint4.md) | Roteiro expandido de avaliação e informações complementares |
 
 ---
 
@@ -422,4 +445,4 @@ Repositório GitHub: https://github.com/Rcsilva05/clyvo-vet-sprint-4
 
 Turma: **2TDSR** — FIAP — 2026
 
-> A versão publicada desta entrega está no repositório acima, branch `main`. Consulte [`docs/entrega-sprint4.md`](docs/entrega-sprint4.md) para o roteiro de avaliação, a lista de evidências e as orientações de envio pelo portal.
+> O status da publicação, os acessos de demonstração e as evidências principais estão nesta página. Consulte [`docs/entrega-sprint4.md`](docs/entrega-sprint4.md) para informações complementares.
