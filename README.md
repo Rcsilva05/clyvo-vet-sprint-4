@@ -16,9 +16,6 @@
 
 **Acesso online:** [https://clyvo-vet-sprint-4.onrender.com/solin/login](https://clyvo-vet-sprint-4.onrender.com/solin/login). O deploy foi confirmado; o registro de evento pela área do tutor e o painel veterinário foram testados. O serviço gratuito do Render pode entrar em repouso após inatividade e demorar a responder na primeira visita. O PostgreSQL fica no Neon, separado do Render.
 
-**Vídeo:** não há vídeo gravado nem arquivo/link de vídeo incluído nesta entrega; a submissão está planejada sem vídeo. Confira a rubrica e as instruções do portal da disciplina para saber se ele é obrigatório. Caso seja, será necessário gravar e enviar o vídeo separadamente.
-
----
 
 O SOLIN evoluiu de uma API REST para uma aplicação web completa em **Spring Boot**. A ideia central é acompanhar a rotina diária de saúde de um pet (se urinou, se comeu, se bebeu água), seja o tutor registrando manualmente ou um sensor IoT enviando os dados, e criar um **alerta automático** quando o intervalo ultrapassa o limite configurado para aquela espécie. Esta entrega consolida os fluxos web, o controle de acesso com **Spring Security**, o versionamento do banco com **Flyway**, as evidências técnicas e a preparação para execução em container. O projeto é ambientado numa clínica fictícia, a **Clyvo Vet**.
 
