@@ -12,11 +12,12 @@ Este checklist separa o que já existe nesta pasta do que depende de publicaçã
 - README com contexto do problema, arquitetura, tecnologias, padrões, fluxos, credenciais locais e instruções para executar.
 - Dockerfile e perfil Docker Compose para executar a aplicação com PostgreSQL local.
 
-## O que falta para a entrega externa
+## Publicação e validação
 
-- **Publicar a aplicação no Render:** seguir o passo a passo em [Implantação no Render com GitHub](../README.md#implantação-no-render-com-github). Enviar esta versão para `Rcsilva05/clyvo-vet-sprint-4`, criar PostgreSQL e Web Service Docker na mesma região, configurar as variáveis secretas e validar login/eventos antes de acrescentar a URL pública ao README. A equipe deve confirmar a criação dos recursos no Dashboard; nenhum recurso foi provisionado por esta alteração.
+- **Acesso online:** [https://clyvo-vet-sprint-4.onrender.com/solin/login](https://clyvo-vet-sprint-4.onrender.com/solin/login).
+- **Deploy e testes confirmados:** a aplicação está publicada no Render; foram testados o registro de evento pela área do tutor e o painel veterinário.
+- **Hospedagem e dados:** o serviço gratuito do Render pode entrar em repouso após inatividade. O PostgreSQL usado pela aplicação está no Neon, como serviço separado do Render.
 - **Confirmar o vídeo:** o README mantém um link que já constava no material recebido, mas o conteúdo e a duração não foram verificados. Confirmem ou substituam pelo vídeo do 4º Sprint, com no máximo 15 minutos e participação de todos os integrantes listados no README.
-- **Sincronizar o repositório:** publique os arquivos selecionados na branch `main` do novo repositório `https://github.com/Rcsilva05/clyvo-vet-sprint-4`, seguindo as instruções seguras do README. Depois, confirme que o README no GitHub contém a URL online e o link final do vídeo.
 
 ## Roteiro sugerido para o vídeo (aprox. 13 minutos)
 

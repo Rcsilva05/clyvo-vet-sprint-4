@@ -14,11 +14,11 @@
 
 ## Entrega final — acesso e apresentação
 
-**Acesso online:** esta cópia ainda não tem uma URL de implantação publicada. O endereço local depois de iniciar a aplicação é `http://localhost:8080/solin/login`. A seção [Implantação](#implantação) documenta como gerar a imagem e configurar um serviço e um PostgreSQL externos; a publicação precisa ser feita em uma conta de hospedagem da equipe.
+**Acesso online:** [https://clyvo-vet-sprint-4.onrender.com/solin/login](https://clyvo-vet-sprint-4.onrender.com/solin/login). O deploy no Render foi confirmado e foram testados o registro de evento pelo tutor e o painel veterinário. O serviço gratuito do Render pode entrar em repouso após um período sem uso e demorar para responder na primeira requisição ao ser reativado. O banco PostgreSQL fica no Neon, como serviço separado do Render; os dados da aplicação são armazenados nesse banco. Para execução local, use `http://localhost:8080/solin/login`.
 
 **Vídeo informado no material anterior:** [YouTube](https://www.youtube.com/watch?v=i8mMz05rV80). Antes da entrega, confirmem que este é o vídeo do 4º Sprint, que dura no máximo 15 minutos e que todos os integrantes aparecem e participam. Não foi possível confirmar o conteúdo do vídeo a partir desta pasta.
 
-Para registrar a URL online e substituir o link do vídeo após a gravação, atualizem esta seção e mantenham os dois links acessíveis para avaliação.
+O link do vídeo acima veio do material anterior; confirmem que corresponde ao 4º Sprint, tem no máximo 15 minutos e inclui a participação de todos os integrantes. Mantenham os links acessíveis para avaliação.
 
 ---
 
@@ -220,7 +220,7 @@ Se o repositório novo deixar de estar vazio antes do push, pare e confira suas 
 
 **5. Implante e valide:** inicie o deploy pelo Dashboard, acompanhe os logs até `Started SolinApiApplication`, abra `https://<nome-do-servico>.onrender.com/solin/login` e valide os acessos de tutor e veterinário, registro de evento e painel de alertas. O serviço terá uma URL pública e os dados de demonstração do seed. Atualize então o campo **Acesso online** no topo deste README. Como as credenciais de demonstração são conhecidas e o app público permite operações, use-o somente para avaliação, sem dados pessoais/reais; não trate estes logins como contas privadas.
 
-**Sem recursos publicados ainda:** esta configuração não cria serviço, banco, conta, domínio ou deploy. O provisionamento requer que alguém da equipe conecte o GitHub e confirme a criação no Render. Consulte os guias oficiais de [deploy Docker](https://render.com/docs/docker) e [criação/conexão do PostgreSQL](https://render.com/docs/postgresql-creating-connecting).
+**Status da publicação:** o Web Service está publicado no Render e conectado ao PostgreSQL independente no Neon. Para referência sobre a configuração, consulte os guias oficiais de [deploy Docker](https://render.com/docs/docker) e [criação/conexão do PostgreSQL](https://render.com/docs/postgresql-creating-connecting).
 
 Para gerar e executar a imagem localmente (com o PostgreSQL já disponível na porta `5432`):
 
