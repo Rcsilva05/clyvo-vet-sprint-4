@@ -2,6 +2,8 @@
 
 > Java Advanced — FIAP — Challenge 2026, 2º Semestre — Entrega final (4º Sprint)
 
+O SOLIN evoluiu de uma API REST para uma aplicação web completa em **Spring Boot**. A ideia central é acompanhar a rotina diária de saúde de um pet (se urinou, se comeu, se bebeu água), seja o tutor registrando manualmente ou um sensor IoT enviando os dados, e criar um **alerta automático** quando o intervalo ultrapassa o limite configurado para aquela espécie. Esta entrega consolida os fluxos web, o controle de acesso com **Spring Security**, o versionamento do banco com **Flyway**, as evidências técnicas e a preparação para execução em container. O projeto é ambientado numa clínica fictícia, a **Clyvo Vet**.
+
 ##  Equipe — Turma 2TDSR
 
 | Nome | RM |
@@ -38,8 +40,6 @@
 - [x] Diagramas de domínio e dados em [documentos/diagramas](documentos/diagramas/); capturas complementares da API em [documentos/Prints](documentos/Prints/).
 
 **Links para conferência:** [repositório GitHub — branch `main`](https://github.com/Rcsilva05/clyvo-vet-sprint-4/tree/main) · [aplicação publicada](https://clyvo-vet-sprint-4.onrender.com/solin/login) · [instruções locais](#como-rodar) · [detalhes complementares da entrega](docs/entrega-sprint4.md).
-
-O SOLIN evoluiu de uma API REST para uma aplicação web completa em **Spring Boot**. A ideia central é acompanhar a rotina diária de saúde de um pet (se urinou, se comeu, se bebeu água), seja o tutor registrando manualmente ou um sensor IoT enviando os dados, e criar um **alerta automático** quando o intervalo ultrapassa o limite configurado para aquela espécie. Esta entrega consolida os fluxos web, o controle de acesso com **Spring Security**, o versionamento do banco com **Flyway**, as evidências técnicas e a preparação para execução em container. O projeto é ambientado numa clínica fictícia, a **Clyvo Vet**.
 
 ---
 
